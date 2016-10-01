@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <category
+            name="ImportGroovyExtensionCategory"
+            id="org.grife.importWizards.sampleCategory">
+      </category>
+      <wizard
+            name="Import Groovy Extension File"
+            icon="icons/sample.gif"
+            category="org.grife.importWizards.sampleCategory"
+            class="org.grife.importWizards.ImportGroovyExtension"
+            id="org.grife.importWizards.ImportGroovyExtension">
+         <description>
+            Import a file from the local file system into the workspace.
+         </description>
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            name="Grife Preferences"
+            class="org.grife.preferences.GrifePreferencePage"
+            id="org.grife.preferences.GrifePreferencePage">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.grife.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Grife Category"
+            id="org.grife">
+      </category>
+      <view
+            name="Grife View"
+            icon="icons/sample.gif"
+            category="org.grife"
+            class="org.grife.views.GrifeView"
+            id="org.grife.views.GrifeView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               ratio="0.5"
+               relative="org.eclipse.ui.views.ProblemView"
+               relationship="right"
+               id="org.grife.views.GrifeView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+
+</plugin>
