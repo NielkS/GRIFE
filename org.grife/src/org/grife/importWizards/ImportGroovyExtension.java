@@ -1,10 +1,16 @@
 package org.grife.importWizards;
 
+import java.net.MalformedURLException;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
+import org.grife.framework.ScriptWrapper;
+
+import groovy.util.ResourceException;
+import groovy.util.ScriptException;
 
 public class ImportGroovyExtension extends Wizard implements IImportWizard {
 	
@@ -19,8 +25,17 @@ public class ImportGroovyExtension extends Wizard implements IImportWizard {
 	 */
 	public boolean performFinish() {
 		IFile file = mainPage.createNewFile();
-        if (file == null)
+        if (file == null) {
             return false;
+        } else {
+        	ScriptWrapper scriptWrapper;
+			try {
+				scriptWrapper = new ScriptWrapper(file.getName());
+	        	scriptWrapper.execute();
+			} catch (MalformedURLException | ResourceException | ScriptException e) {
+				e.printStackTrace();
+			}
+        }
         return true;
 	}
 	 

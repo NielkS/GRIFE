@@ -26,7 +26,7 @@ public class ImportGroovyExtensionPage extends WizardNewFileCreationPage {
 	public ImportGroovyExtensionPage(String pageName, IStructuredSelection selection) {
 		super(pageName, selection);
 		setTitle(pageName); //NON-NLS-1
-		setDescription("Import a file from the local file system into the workspace"); //NON-NLS-1
+		setDescription("Import a new groovy plugin"); //NON-NLS-1
 	}
 
 	/* (non-Javadoc)
@@ -52,7 +52,7 @@ public class ImportGroovyExtensionPage extends WizardNewFileCreationPage {
 				setFileName(path.lastSegment());
 			}
 		});
-		String[] extensions = new String[] { "*.*" }; //NON-NLS-1
+		String[] extensions = new String[] { "*.groovy" }; //NON-NLS-1
 		editor.setFileExtensions(extensions);
 		fileSelectionArea.moveAbove(null);
 
@@ -68,6 +68,7 @@ public class ImportGroovyExtensionPage extends WizardNewFileCreationPage {
 	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#getInitialContents()
 	 */
 	protected InputStream getInitialContents() {
+		//TODO list imported groovy plugins persisted in preferences page
 		try {
 			return new FileInputStream(new File(editor.getStringValue()));
 		} catch (FileNotFoundException e) {
@@ -87,5 +88,13 @@ public class ImportGroovyExtensionPage extends WizardNewFileCreationPage {
 	 */
 	protected IStatus validateLinkedResource() {
 		return new Status(IStatus.OK, "org.grife", IStatus.OK, "", null); //NON-NLS-1 //NON-NLS-2
+	}
+	
+	@Override
+	public void setPageComplete(boolean isPageComplete) {
+		if (isPageComplete) {
+			//TODO spawn new plugins
+		}
+		super.setPageComplete(isPageComplete);
 	}
 }
