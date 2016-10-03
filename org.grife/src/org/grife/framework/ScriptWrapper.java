@@ -15,8 +15,8 @@ import groovy.util.ScriptException;
 
 public class ScriptWrapper {
 
-	public ScriptWrapper(final String strFile) throws MalformedURLException {
-		scriptFile = new File(strFile);
+	public ScriptWrapper(final File file) throws MalformedURLException {
+		scriptFile = file;
 		groovyLog = new GroovyLog(scriptFile.getName(), Activator.getDefault().getLog());
 		/*rc = new ResourceConnector() {
 			@Override
@@ -32,9 +32,15 @@ public class ScriptWrapper {
 		urls.add( new File(scriptFile.getPath()).toURL());
 		URL[] urlArray = urls.toArray( new URL[urls.size()] );
 		gse = new groovy.util.GroovyScriptEngine( urlArray, getClass().getClassLoader()); //< pass current class loader for eclipse resources
-		binding = new Binding();
+		binding = makeBinding();
 	}
 	
+	private Binding makeBinding() {
+		Binding binding = new Binding();
+		binding.setVariable("_", new EclipseBinding(this.groovyLog));
+		return binding;
+	}
+
 	public void execute() throws ResourceException, ScriptException {
 		gse.run(scriptFile.getName().toString(), binding);
 	}

@@ -1,18 +1,9 @@
 package org.grife;
 
-import java.net.MalformedURLException;
-
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.grife.framework.ScriptWrapper;
 import org.osgi.framework.BundleContext;
-
-import groovy.util.ResourceException;
-import groovy.util.ScriptException;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -39,23 +30,6 @@ public class Activator extends AbstractUIPlugin {
 		super.start(context);
 		plugin = this;
 		getLog().log( new Status(Status.INFO,PLUGIN_ID, "Starting plugin " + PLUGIN_ID) );
-		
-		new Job("Hello groovy") {
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				try {
-					new ScriptWrapper("C:/Users/Nico/Desktop/HelloWorld.groovy").execute();
-					Status status = new Status(Status.INFO, PLUGIN_ID, "Test OK");
-					getLog().log( status);
-					return status;
-				} catch (MalformedURLException | ResourceException | ScriptException e) {
-					e.printStackTrace();
-					Status status = new Status(Status.ERROR, PLUGIN_ID, "Test KO");
-					getLog().log( status);
-					return status;
-				}
-			}
-		}.schedule(100);
 	}
 
 	/*

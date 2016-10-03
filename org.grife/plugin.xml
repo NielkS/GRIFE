@@ -5,17 +5,17 @@
    <extension
          point="org.eclipse.ui.importWizards">
       <category
-            name="ImportGroovyExtensionCategory"
+            name="Import Groovy Plugin"
             id="org.grife.importWizards.sampleCategory">
       </category>
       <wizard
-            name="Import Groovy Extension File"
+            name="Groovy Script"
             icon="icons/sample.gif"
             category="org.grife.importWizards.sampleCategory"
             class="org.grife.importWizards.ImportGroovyExtension"
             id="org.grife.importWizards.ImportGroovyExtension">
          <description>
-            Import a file from the local file system into the workspace.
+            Import a groovy script with GRIFE.
          </description>
       </wizard>
    </extension>
@@ -48,22 +48,86 @@
       </view>
    </extension>
    <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension
-            targetID="org.eclipse.jdt.ui.JavaPerspective">
-         <view
-               ratio="0.5"
-               relative="org.eclipse.ui.views.ProblemView"
-               relationship="right"
-               id="org.grife.views.GrifeView">
-         </view>
-      </perspectiveExtension>
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="org.grife.contribution1"
+            objectClass="org.eclipse.core.resources.IFile">
+         <menu
+               id="org.grife.menu1"
+               label="Import Groovy Plugin"
+               path="additions">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               class="org.grife.popup.actions.ImportScriptAction"
+               enablesFor="1"
+               id="org.grife.newAction"
+               label="Script"
+               menubarPath="org.grife.menu1/group1">
+         </action>
+      </objectContribution>
    </extension>
    <extension
-         point="org.eclipse.help.contexts">
-      <contexts
-            file="contexts.xml">
-      </contexts>
+         id="org.grife.menu1"
+         name="Grife"
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               id="org.grife.RunGroovyScriptToolbar"
+               label="Grife"
+               mnemonic="G">
+            <command
+                  commandId="org.grife.RunGroovyScriptCommand"
+                  id="org.grife.menus.sampleCommand"
+                  label="Execute Groovy Script"
+                  mnemonic="S">
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="org.grife.toolbars.sampleToolbar">
+            <command
+                  commandId="org.grife.commands.sampleCommand"
+                  icon="icons/sample.gif"
+                  id="org.grife.toolbars.sampleCommand"
+                  tooltip="Say hello world">
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.grife.handlers.RunGroovyScriptCommandHandler"
+            commandId="org.grife.RunGroovyScriptCommand">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="org.grife.RunGroovyScriptCommand"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+6">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="org.grife.commands.category"
+            name="Grife Category">
+      </category>
+      <command
+            category="Grife Command"
+            categoryId="org.grife.commands"
+            id="org.grife.RunGroovyScriptCommand"
+            name="Run Groovy Script Command">
+      </command>
    </extension>
 
 </plugin>
